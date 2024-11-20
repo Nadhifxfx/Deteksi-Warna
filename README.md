@@ -86,5 +86,14 @@ plt.show()
 ```
 
 **Hasil Gambar :**
+Buah sudah matang: 33.33%
+Buah belum matang: 66.67%
+![tomat cantik 2](https://github.com/user-attachments/assets/70a07a60-2e18-4ebc-bf06-30b3d79a38aa)
 ![buat github](https://github.com/user-attachments/assets/8f7fb732-9747-40b6-8611-9206803a03fe)
+
+**Penjelasan**
+Mengunggah Foto: Pengguna dapat mengunggah gambar menggunakan fitur files.upload() yang disediakan oleh Google Colab.
+Mendeteksi Warna Dominan: Menggunakan algoritma KMeans untuk mendeteksi warna dominan dalam gambar.
+Penilaian Kematangan: Berdasarkan warna dominan, kode ini menganggap warna hijau sebagai indikasi buah yang belum matang dan merah sebagai tanda buah yang sudah matang. Kode ini kemudian menghitung persentase kematangan berdasarkan proporsi warna yang ditemukan.
+Menampilkan Hasil: Hasil dari analisis warna dan gambar akan ditampilkan di Colab.
 
