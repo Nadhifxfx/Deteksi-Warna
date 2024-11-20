@@ -1,7 +1,7 @@
 # Deteksi_Warna
 
 **Soal :**
-- Buat programPendeteksi warna serta Jelaskan program yang dibuat untuk apa.
+- Buat program pendeteksi warna serta Jelaskan program yang dibuat untuk apa.
   
   # Jawaban
 
