@@ -86,4 +86,5 @@ plt.show()
 ```
 
 **Hasil Gambar :**
-![Hasil gambar Histogram Equalization](https://github.com/user-attachments/assets/8a5c431d-6e97-427e-b2d3-6734717a096a)
+![buat github](https://github.com/user-attachments/assets/8f7fb732-9747-40b6-8611-9206803a03fe)
+
