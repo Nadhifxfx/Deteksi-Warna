@@ -93,7 +93,7 @@ print(result)
 **Hasil Gambar :**<br>
 Buah sudah matang: 100.00%<br>
 Buah belum matang: 0.00%<br>
-![tomat ![tomat](https://github.com/user-attachments/assets/ee58fd94-4a4b-4da4-84c4-7d0a976c6874)
+![tomat](https://github.com/user-attachments/assets/ee58fd94-4a4b-4da4-84c4-7d0a976c6874)
 Warna dominan (RGB):
 Warna 1: RGB(174, 39, 34)<br>
 Warna 2: RGB(250, 241, 238)<br>
@@ -101,10 +101,10 @@ Warna 3: RGB(214, 119, 113)<br>
 ![warna](https://github.com/user-attachments/assets/8165156d-2fdb-4b28-874a-0e5eb623b739)
 
 
-**Penjelasan**<br>
-**Mengunggah Gambar:** Pengguna dapat mengunggah foto buah dengan bantuan fungsi files.upload() di Google Colab.<br>
-**Konversi ke RGB:** Gambar diubah dari format BGR (yang digunakan oleh OpenCV) ke RGB untuk kompatibilitas analisis.<br>
-**Deteksi Warna Dominan:** Algoritma KMeans digunakan untuk mengelompokkan piksel ke dalam 3 warna dominan. Hasilnya berupa nilai RGB.<br>
-**Analisis Tingkat Kematangan:** Berdasarkan asumsi bahwa buah matang memiliki warna merah (dominan nilai R tinggi) dan buah belum matang berwarna hijau (dominan nilai G tinggi), kode menghitung persentase kematangan.<br>
-**Visualisasi Warna:** Warna dominan divisualisasikan menggunakan matplotlib.<br>
+**Penjelasan :**<br>
+**1. Mengunggah Gambar:** Pengguna dapat mengunggah foto buah dengan bantuan fungsi files.upload() di Google Colab.<br>
+**2. Konversi ke RGB:** Gambar diubah dari format BGR (yang digunakan oleh OpenCV) ke RGB untuk kompatibilitas analisis.<br>
+**3. Deteksi Warna Dominan:** Algoritma KMeans digunakan untuk mengelompokkan piksel ke dalam 3 warna dominan. Hasilnya berupa nilai RGB.<br>
+**4. Analisis Tingkat Kematangan:** Berdasarkan asumsi bahwa buah matang memiliki warna merah (dominan nilai R tinggi) dan buah belum matang berwarna hijau (dominan nilai G tinggi), kode menghitung persentase kematangan.<br>
+**5. Visualisasi Warna:** Warna dominan divisualisasikan menggunakan matplotlib.<br>
 
