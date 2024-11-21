@@ -6,95 +6,105 @@
   # Jawaban
 
 ```python
+# Import pustaka yang diperlukan
 import cv2
 import numpy as np
-import matplotlib.pyplot as plt
 from google.colab import files
-from sklearn.cluster import KMeans
+import matplotlib.pyplot as plt
 
-# Fungsi untuk mengupload foto
+# Fungsi untuk mengunggah foto
+print("Silakan unggah foto buah:")
 uploaded = files.upload()
 
-# Membaca gambar yang diupload
+# Membaca gambar yang diunggah
 image_path = list(uploaded.keys())[0]
 image = cv2.imread(image_path)
 
-# Mengkonversi gambar ke RGB (karena OpenCV membaca gambar dalam format BGR)
+# Konversi gambar ke format RGB
 image_rgb = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
 
-# Fungsi untuk mendeteksi warna dominan di gambar menggunakan KMeans
-def detect_color(image, n_colors=3):
-    # Mengubah ukuran gambar untuk mempercepat proses
-    image_resized = cv2.resize(image, (image.shape[1]//10, image.shape[0]//10))
-    pixels = image_resized.reshape(-1, 3)
-    
-    # Menggunakan KMeans untuk mengelompokkan warna
-    kmeans = KMeans(n_clusters=n_colors)
-    kmeans.fit(pixels)
-    
-    # Mengambil warna dominan
-    dominant_colors = kmeans.cluster_centers_
-    
-    return dominant_colors
-
-# Menampilkan warna dominan
-dominant_colors = detect_color(image_rgb, 5)
-
-# Menampilkan hasil warna dominan
-plt.figure(figsize=(8, 6))
-plt.imshow([dominant_colors.astype(int)])
-plt.axis('off')
-plt.title("Warna Dominan pada Buah")
-plt.show()
-
-# Fungsi untuk menilai tingkat kematangan berdasarkan warna
-def assess_ripeness(dominant_colors):
-    # Misalnya kita mendefinisikan warna-warna yang menggambarkan tingkat kematangan
-    # Anggaplah warna hijau untuk buah yang belum matang dan merah untuk yang matang
-    ripe_color_range = [(150, 50, 50), (255, 0, 0)]  # Misalnya merah matang
-    unripe_color_range = [(0, 255, 0), (50, 255, 50)]  # Hijau belum matang
-
-    # Cek kemiripan warna dominan dengan warna matang atau belum matang
-    ripe_score = 0
-    unripe_score = 0
-    
-    for color in dominant_colors:
-        if color[0] > 100 and color[1] < 80:  # Cek apakah lebih mendekati merah
-            ripe_score += 1
-        elif color[1] > 150:  # Cek apakah lebih mendekati hijau
-            unripe_score += 1
-    
-    # Kalkulasi tingkat kematangan berdasarkan jumlah warna yang cocok
-    total = ripe_score + unripe_score
-    if total == 0:
-        return "Tidak dapat menilai kematangan", 0
-    ripe_percentage = (ripe_score / total) * 100
-    unripe_percentage = (unripe_score / total) * 100
-
-    return f"Buah sudah matang: {ripe_percentage:.2f}%\nBuah belum matang: {unripe_percentage:.2f}%", ripe_percentage
-
-# Menilai kematangan berdasarkan warna dominan
-result, ripeness_percentage = assess_ripeness(dominant_colors)
-print(result)
-
-# Menampilkan gambar asli buah
-plt.figure(figsize=(8, 6))
+# Menampilkan gambar yang diunggah
 plt.imshow(image_rgb)
 plt.axis('off')
 plt.title("Gambar Buah")
 plt.show()
+
+# Fungsi untuk mendeteksi warna dominan dan nilai RGB
+def detect_dominant_colors(image, k=3):
+    # Ubah ukuran gambar untuk mempercepat proses
+    resized_image = cv2.resize(image, (image.shape[1] // 10, image.shape[0] // 10))
+    pixels = resized_image.reshape(-1, 3)
+    
+    # Gunakan KMeans untuk mendeteksi warna dominan
+    from sklearn.cluster import KMeans
+    kmeans = KMeans(n_clusters=k)
+    kmeans.fit(pixels)
+    
+    # Ambil nilai warna dominan
+    dominant_colors = kmeans.cluster_centers_
+    return dominant_colors.astype(int)
+
+# Deteksi warna dominan
+dominant_colors = detect_dominant_colors(image_rgb, k=3)
+
+# Tampilkan warna dominan
+print("Warna dominan (RGB):")
+for i, color in enumerate(dominant_colors):
+    print(f"Warna {i+1}: RGB{tuple(color)}")
+
+# Visualisasi warna dominan
+plt.figure(figsize=(8, 4))
+for i, color in enumerate(dominant_colors):
+    plt.subplot(1, len(dominant_colors), i+1)
+    plt.imshow([[color / 255]])  # Normalisasi warna ke skala 0-1
+    plt.axis('off')
+    plt.title(f"RGB{tuple(color)}")
+plt.show()
+
+# Fungsi untuk menghitung persentase kematangan berdasarkan warna dominan
+def calculate_ripeness(dominant_colors):
+    # Asumsi rentang warna RGB untuk kematangan
+    # Merah (matang): banyak merah dan lebih sedikit hijau
+    # Hijau (belum matang): banyak hijau dan sedikit merah
+    ripe_count = 0
+    unripe_count = 0
+
+    for color in dominant_colors:
+        r, g, b = color
+        if r > 150 and g < 100:  # Warna matang (dominan merah)
+            ripe_count += 1
+        elif g > 150 and r < 100:  # Warna belum matang (dominan hijau)
+            unripe_count += 1
+
+    total_colors = ripe_count + unripe_count
+    if total_colors == 0:
+        return "Tidak dapat menentukan tingkat kematangan", 0
+    
+    ripe_percentage = (ripe_count / total_colors) * 100
+    unripe_percentage = (unripe_count / total_colors) * 100
+
+    return f"Buah sudah matang: {ripe_percentage:.2f}%\nBuah belum matang: {unripe_percentage:.2f}%", ripe_percentage
+
+# Hitung dan tampilkan persentase kematangan
+result, ripeness_percentage = calculate_ripeness(dominant_colors)
+print(result)
 ```
 
 **Hasil Gambar :**<br>
-Buah sudah matang: 33.33%<br>
-Buah belum matang: 66.67%<br>
+Buah sudah matang: 100.00%<br>
+Buah belum matang: 0.00%<br>
+![tomat ![tomat](https://github.com/user-attachments/assets/ee58fd94-4a4b-4da4-84c4-7d0a976c6874)
+Warna dominan (RGB):
+Warna 1: RGB(174, 39, 34)<br>
+Warna 2: RGB(250, 241, 238)<br>
+Warna 3: RGB(214, 119, 113)<br>
+![warna](https://github.com/user-attachments/assets/8165156d-2fdb-4b28-874a-0e5eb623b739)
 
-![tomat cantik 2](https://github.com/user-attachments/assets/70a07a60-2e18-4ebc-bf06-30b3d79a38aa)
-![buat github](https://github.com/user-attachments/assets/8f7fb732-9747-40b6-8611-9206803a03fe)
 
 **Penjelasan**<br>
-Mengunggah Foto: Pengguna dapat mengunggah gambar menggunakan fitur files.upload() yang disediakan oleh Google Colab.<br>
-Mendeteksi Warna Dominan: Menggunakan algoritma KMeans untuk mendeteksi warna dominan dalam gambar.<br>
-Penilaian Kematangan: Berdasarkan warna dominan, kode ini menganggap warna hijau sebagai indikasi buah yang belum matang dan merah sebagai tanda buah yang sudah matang. Kode ini kemudian menghitung persentase kematangan berdasarkan proporsi warna yang ditemukan.<br>
-Menampilkan Hasil: Hasil dari analisis warna dan gambar akan ditampilkan di Colab.<br>
+**Mengunggah Gambar:** Pengguna dapat mengunggah foto buah dengan bantuan fungsi files.upload() di Google Colab.<br>
+**Konversi ke RGB:** Gambar diubah dari format BGR (yang digunakan oleh OpenCV) ke RGB untuk kompatibilitas analisis.<br>
+**Deteksi Warna Dominan:** Algoritma KMeans digunakan untuk mengelompokkan piksel ke dalam 3 warna dominan. Hasilnya berupa nilai RGB.<br>
+**Analisis Tingkat Kematangan:** Berdasarkan asumsi bahwa buah matang memiliki warna merah (dominan nilai R tinggi) dan buah belum matang berwarna hijau (dominan nilai G tinggi), kode menghitung persentase kematangan.<br>
+**Visualisasi Warna:** Warna dominan divisualisasikan menggunakan matplotlib.<br>
 
