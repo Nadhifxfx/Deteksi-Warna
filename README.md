@@ -1,4 +1,4 @@
-# Deteksi_Warna
+# Deteksi Warna
 
 **Soal :**
 - Buat program pendeteksi warna serta Jelaskan program yang dibuat untuk apa.
