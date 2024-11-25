@@ -95,7 +95,7 @@ Buah sudah matang: 100.00%<br>
 Buah belum matang: 0.00%<br>
 
 ![tomat](https://github.com/user-attachments/assets/ee58fd94-4a4b-4da4-84c4-7d0a976c6874)<br>
-Warna dominan (RGB):
+Warna dominan (RGB):<br>
 Warna 1: RGB(174, 39, 34)<br>
 Warna 2: RGB(250, 241, 238)<br>
 Warna 3: RGB(214, 119, 113)<br>
