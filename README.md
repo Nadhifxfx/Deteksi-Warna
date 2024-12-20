@@ -90,7 +90,7 @@ result, ripeness_percentage = calculate_ripeness(dominant_colors)
 print(result)
 ```
 
-**Hasil Gambar :**<br>
+# Hasil Gambar 
 Buah sudah matang: 100.00%<br>
 Buah belum matang: 0.00%<br>
 
